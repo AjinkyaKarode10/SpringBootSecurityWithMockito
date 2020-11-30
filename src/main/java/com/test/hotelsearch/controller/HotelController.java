@@ -26,8 +26,10 @@ public class HotelController {
 	
 
 	@RequestMapping(method=RequestMethod.GET,value = "/searchHotels")
-	public ResponseEntity<HotelSearchResponse> searchHotels(@RequestParam String hotelName,@RequestParam String location,
-													   @RequestParam Integer pageNumber,@RequestParam Integer pageSize) {
+	public ResponseEntity<HotelSearchResponse> searchHotels(@RequestParam String hotelName,
+															@RequestParam String location,
+															@RequestParam Integer pageNumber,
+															@RequestParam(value="pageSize",required = false) Integer pageSize) {
 		
 		return ResponseEntity.ok(hotelServiceI.getHotels(location, hotelName, pageNumber, pageSize));
 	}

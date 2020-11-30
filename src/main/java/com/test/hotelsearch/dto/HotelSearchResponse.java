@@ -23,6 +23,17 @@ public class HotelSearchResponse {
 	public void setTotalItems(int totalItems) {
 		this.totalItems = totalItems;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("HotelSearchResponse [hotelList=");
+		builder.append(hotelList);
+		builder.append(", totalItems=");
+		builder.append(totalItems);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 	
 	
