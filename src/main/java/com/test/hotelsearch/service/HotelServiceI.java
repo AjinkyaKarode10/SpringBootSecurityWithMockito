@@ -6,6 +6,7 @@ import com.test.hotelsearch.dto.HotelBulkAddResponse;
 import com.test.hotelsearch.dto.HotelBulkUpdateResponse;
 import com.test.hotelsearch.dto.HotelDTO;
 import com.test.hotelsearch.dto.HotelSearchResponse;
+import com.test.hotelsearch.exception.HotelIdInvalidException;
 import com.test.hotelsearch.exception.HotelNameNotFoundException;
 
 public interface HotelServiceI {
@@ -19,6 +20,8 @@ public interface HotelServiceI {
 	public HotelDTO updateHotel(HotelDTO hotelDTO) throws HotelNameNotFoundException;
 	
 	public HotelBulkUpdateResponse updateBulkHotel(List<HotelDTO> hotelDTO);
+	
+	public boolean deleteHotel(HotelDTO hotelDTO) throws HotelIdInvalidException;
 	
 	
 	

@@ -12,11 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
-
 import com.test.hotelsearch.exception.CustomAccessDeniedHandler;
 import com.test.hotelsearch.exception.CustomAuthenticationResponseHandler;
-import com.test.hotelsearch.exception.RestAuthenticationFailureHandler;
 import com.test.hotelsearch.service.CustomUserDetailsService;
 
 
@@ -67,7 +64,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 				//.and().authorizeRequests().antMatchers("/hasAdminPermission").access("hasAuthority('CREATE')").and()
 				.and().authorizeRequests().antMatchers("/admin/**").authenticated().and().httpBasic().and()
 				// make sure we use stateless session; session won't be used to
-				// store user's state.
 				//accessDeniedHandler(accessDeniedHandler())
 				.exceptionHandling().authenticationEntryPoint(authenticationHandler).and()
 				.sessionManagement()

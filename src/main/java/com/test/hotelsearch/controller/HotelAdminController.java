@@ -50,7 +50,7 @@ public class HotelAdminController {
 	}
 	
 	@PostMapping(value = "/updateHotel")
-	@PreAuthorize("hasAuthority('CREATE')")
+	@PreAuthorize("hasAuthority('UPDATE')")
 	public ResponseEntity<HotelDTO> updateHotel(@RequestBody HotelDTO hotelDTO) throws HotelNameInvalidException,HotelIdInvalidException, HotelNameNotFoundException{
 		
 		validationUtil.validateHotelUpdate(hotelDTO);
@@ -59,10 +59,19 @@ public class HotelAdminController {
 	}
 	
 	@PostMapping(value = "/updateBulkHotel")
-	@PreAuthorize("hasAuthority('CREATE')")
+	@PreAuthorize("hasAuthority('UPDATE')")
 	public ResponseEntity<HotelBulkUpdateResponse> updateBulkHotel(@RequestBody List<HotelDTO> hotelDTO) {
 		
 		return ResponseEntity.ok(hotelServiceI.updateBulkHotel(hotelDTO));
 	}
+	
+	@PostMapping(value = "/deleteHotel")
+	@PreAuthorize("hasAuthority('DELETE')")
+	public ResponseEntity<Boolean> deleteHotel(@RequestBody HotelDTO hotelDTO) throws HotelIdInvalidException {
+		
+		return ResponseEntity.ok(hotelServiceI.deleteHotel(hotelDTO));
+	}
+	
+	
 	
 }

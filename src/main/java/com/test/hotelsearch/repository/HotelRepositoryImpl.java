@@ -33,7 +33,7 @@ public class HotelRepositoryImpl implements HotelRepositoryI{
 		
 		if(hotelName != null && !hotelName.isEmpty())
 		{
-			predicates.add(criteriaBuilder.like(root.<String>get("hotelName"), "%"+hotelName+"%"));
+			predicates.add(criteriaBuilder.like(root.<String>get("name"), "%"+hotelName+"%"));
 			criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 		}
 		if(location != null && !location.isEmpty())

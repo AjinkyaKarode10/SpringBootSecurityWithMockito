@@ -48,7 +48,7 @@ public class ValidationUtil {
 		
 	}
 
-	private boolean validateHotelId(Long id) {
+	public boolean validateHotelId(Long id) {
 
 		if(id == null)
 		{

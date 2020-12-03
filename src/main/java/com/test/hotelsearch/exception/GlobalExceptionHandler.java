@@ -2,6 +2,7 @@ package com.test.hotelsearch.exception;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -14,11 +15,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+	private static final String FAILURE = "FAILURE";
 	
 	@ExceptionHandler(HotelNameInvalidException.class)
     public ResponseEntity<Object> handleHotelNameInvalidException(HotelNameInvalidException ex)
     {
-    	ApiResponse responseDTO = new ApiResponse(HttpStatus.FORBIDDEN.value(), "FAILURE");
+    	ApiResponse responseDTO = new ApiResponse(HttpStatus.FORBIDDEN.value(), FAILURE);
     	responseDTO.setMessage(ex.getMessage());
     	return new ResponseEntity<Object>(responseDTO,HttpStatus.BAD_REQUEST);
     	
@@ -45,11 +47,23 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
        
     }
     
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ResponseEntity<Object> handleException(EmptyResultDataAccessException ex, HttpServletResponse response)
+    {
+    	System.out.println("Inside @ExceptionHandler ");
+    	ApiResponse responseDTO = new ApiResponse(HttpStatus.FORBIDDEN.value(), FAILURE);
+    	responseDTO.setMessage("Id Not Found .Deletion of Entity Failed ");
+    	return new ResponseEntity<Object>(responseDTO,HttpStatus.BAD_REQUEST);
+    	
+       
+    }
+    
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception ex, HttpServletResponse response)
     {
     	System.out.println("Inside @ExceptionHandler ");
-    	ApiResponse responseDTO = new ApiResponse(HttpStatus.FORBIDDEN.value(), "FAILURE");
+    	ApiResponse responseDTO = new ApiResponse(HttpStatus.FORBIDDEN.value(), FAILURE);
     	responseDTO.setMessage(ex.getMessage());
     	return new ResponseEntity<Object>(responseDTO,HttpStatus.BAD_REQUEST);
     	

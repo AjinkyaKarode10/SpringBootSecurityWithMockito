@@ -6,8 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import com.test.hotelsearch.dto.FailureHotelNameInsertion;
 import com.test.hotelsearch.dto.HotelBulkAddResponse;
@@ -15,6 +18,7 @@ import com.test.hotelsearch.dto.HotelBulkUpdateResponse;
 import com.test.hotelsearch.dto.HotelDTO;
 import com.test.hotelsearch.dto.HotelSearchResponse;
 import com.test.hotelsearch.entity.Hotel;
+import com.test.hotelsearch.exception.HotelIdInvalidException;
 import com.test.hotelsearch.exception.HotelNameNotFoundException;
 import com.test.hotelsearch.repository.HotelJpaRepository;
 import com.test.hotelsearch.repository.HotelRepositoryI;
@@ -39,7 +43,7 @@ public class HotelServiceImpl implements HotelServiceI {
 	int defaultPageSize;
 
 	
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(HotelServiceImpl.class);
 	
 	@Override
 	public HotelSearchResponse getHotels(String location, String hotelName, Integer pageNumber, Integer pageSize) {
@@ -108,6 +112,7 @@ public class HotelServiceImpl implements HotelServiceI {
 		hotelEntity.setCost(hotelDTO.getCost());
 
 		return hotelJpaRepo.save(hotelEntity).convertToDTO();
+		
 	}
 
 	@Override
@@ -161,6 +166,17 @@ public class HotelServiceImpl implements HotelServiceI {
 		response.setFailure(failureList);
 
 		return response;
+	}
+
+	@Override
+	public boolean deleteHotel(HotelDTO hotelDTO) throws HotelIdInvalidException{
+		if(!validationUtil.validateHotelId(hotelDTO.getId()))
+		{
+			throw new HotelIdInvalidException("Hotel Id Invalid/Empty");
+		}
+		hotelJpaRepo.deleteById(hotelDTO.getId());
+		
+		return true;
 	}
 
 }
